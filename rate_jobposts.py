@@ -101,6 +101,14 @@ def find_application_deadline(text: str) -> List[Union[datetime, str, None]]:
     else:
         return 'N/A'
 
+
+def is_valid_date_format(date_string):
+    try:
+        datetime.strptime(date_string, "%d-%m-%Y")
+        return True
+    except ValueError:
+        return False
+
 def keyword_matching_scoring(row: pd.Series, current_domain) -> Tuple[int, str]:
     '''Provide scores to job posts based on simply keyword matching.
     
@@ -236,9 +244,10 @@ def rate_all_jobpost():
             # finding application deadline. If deadline is after current date,
             # the job is marked as inactive
             deadline_date = find_application_deadline(description)
-            if (isinstance(deadline_date, datetime) and deadline_date > datetime.now().date()):
-                df.loc[row_idx, 'is_active'] = 0
-                inactive_jobs_found = True
+            if is_valid_date_format(deadline_date):
+                if datetime.strptime(deadline_date,"%d-%m-%Y") < datetime.now():
+                    df.loc[row_idx, 'is_active'] = 0
+                    inactive_jobs_found = True
             df.loc[row_idx, 'deadline'] = deadline_date
             current_domain = worksheet.title
 
