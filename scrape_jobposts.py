@@ -546,7 +546,7 @@ def scrape_and_store_new_jobposts():
             scrape_handler = ScrapeHandler(browser_manager, page_loader)
             scrape_handler.scrape_search_results(job_search_url, kw_idx)
 
-    browser_manager.start_browser_session()
+    browser_manager.stop_browser_session()
     completion_time = start_time - time.time()
     log_small_separator(logger, 
                       f"All searches are completed - completion time {completion_time}")

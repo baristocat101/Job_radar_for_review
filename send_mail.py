@@ -8,7 +8,7 @@ from log_helpers import log_big_separator
 logger = logging.getLogger(__name__)
 
 def send_mail_with_notification(cool_jobs):
-    log_big_separator("EMAILING COOL JOB")
+    log_big_separator(logger, "EMAILING COOL JOB")
 
     # Sender's email credentials
     sender_email = google_email_config['email']
